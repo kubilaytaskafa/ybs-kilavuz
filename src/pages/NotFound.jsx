@@ -1,45 +1,42 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React from "react";
+import { Link } from "react-router-dom";
 
 const NotFound = () => {
   return (
     <div style={styles.container}>
-      <div style={styles.content}>
-        
-        {/* Büyük 404 Başlığı */}
-        <h1 style={styles.errorCode}>404</h1>
-        
-        {/* YBS Temalı Terminal Görünümü */}
-        <div style={styles.terminalBox}>
-          <div style={styles.terminalHeader}>
-            <span style={styles.dotRed}></span>
-            <span style={styles.dotYellow}></span>
-            <span style={styles.dotGreen}></span>
-            <span style={{marginLeft: '10px', fontSize: '0.8rem', opacity: 0.7}}>system_log.js</span>
-          </div>
-          <div style={styles.terminalBody}>
-            <p style={styles.codeLine}>
-              <span style={{color: '#F59E0B'}}>Error:</span> Page_Not_Found
-            </p>
-            <p style={styles.codeLine}>
-              <span style={{color: '#2563EB'}}>Analysis:</span> Aradığın sayfa veritabanında bulunamadı.
-            </p>
-            <p style={styles.codeLine}>
-              <span style={{color: '#10B981'}}>Possible_Reasons:</span> ["Henüz kodlanmadı", "Yanlış URL", "Developer kahve molasında"]
-            </p>
-            <p style={styles.codeLine} className="blinking-cursor">
-              > Lütfen rotanızı yeniden oluşturun..._
-            </p>
-          </div>
+      {/* 1. Terminal Penceresi */}
+      <div style={styles.terminal}>
+        {/* Pencere Başlığı (Trafik Işıkları) */}
+        <div style={styles.terminalHeader}>
+          <div style={{ ...styles.dot, background: "#EF4444" }}></div>
+          <div style={{ ...styles.dot, background: "#F59E0B" }}></div>
+          <div style={{ ...styles.dot, background: "#10B981" }}></div>
+          <span style={styles.terminalTitle}>bash — 80x24</span>
         </div>
 
-        {/* Açıklama ve Buton */}
-        <h2 style={styles.title}>Rotanızı mı Kaybettiniz?</h2>
-        <p style={styles.text}>
-          Görünüşe göre gitmeye çalıştığınız yer haritamızda işaretli değil. 
-          Belki de bu sayfa henüz bir Business Analyst tarafından analiz edilmemiştir. 😅
-        </p>
+        {/* Terminal İçeriği */}
+        <div style={styles.terminalBody}>
+          <p style={styles.line}>
+            <span style={{ color: "#10B981" }}>kubilay@ybs-kilavuz:~$</span> cd
+            /aradığın-sayfa
+          </p>
+          <p style={styles.line}>
+            <span style={{ color: "#EF4444" }}>bash: cd: /aradığın-sayfa:</span>{" "}
+            No such file or directory
+          </p>
+          <p style={styles.line}>
+            <span style={{ color: "#10B981" }}>kubilay@ybs-kilavuz:~$</span>{" "}
+            <span style={styles.cursor}>_</span>
+          </p>
+        </div>
+      </div>
 
+      {/* 2. Mesaj ve Buton */}
+      <div style={styles.textContainer}>
+        <h2 style={styles.heading}>404 - Sayfa Bulunamadı</h2>
+        <p style={styles.subText}>
+          Aradığın sayfa silinmiş veya taşınmış olabilir.
+        </p>
         <Link to="/" style={styles.button}>
           Ana Sayfaya Dön
         </Link>
@@ -50,77 +47,89 @@ const NotFound = () => {
 
 const styles = {
   container: {
-    minHeight: '70vh', // Header ve Footer arasında ortalamak için
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: '20px',
-    textAlign: 'center',
+    minHeight: "70vh",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: "20px",
+    backgroundColor: "var(--bg-color)",
   },
-  content: {
-    maxWidth: '600px',
-    width: '100%',
-  },
-  errorCode: {
-    fontSize: '6rem',
-    fontWeight: '900',
-    color: 'var(--primary)', // Projenin ana mavisi
-    margin: '0',
-    lineHeight: '1',
-    opacity: 0.2, // Arka planda silik dursun
-  },
-  terminalBox: {
-    backgroundColor: '#1E293B', // Footer rengi (Koyu Slate)
-    borderRadius: '12px',
-    boxShadow: '0 10px 25px rgba(0,0,0,0.1)',
-    overflow: 'hidden',
-    textAlign: 'left',
-    margin: '-30px auto 30px', // 404 yazısının üstüne hafif binsin
-    position: 'relative',
-    maxWidth: '500px',
+  terminal: {
+    width: "100%",
+    maxWidth: "500px",
+    backgroundColor: "#1E293B", // Koyu renk terminal arka planı
+    borderRadius: "8px",
+    boxShadow:
+      "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)", // Derin gölge
+    overflow: "hidden",
+    fontFamily: "'Courier New', Courier, monospace",
+    marginBottom: "30px",
   },
   terminalHeader: {
-    backgroundColor: '#0F172A', // Daha koyu başlık
-    padding: '10px 15px',
-    display: 'flex',
-    alignItems: 'center',
-    gap: '6px',
-    color: '#fff'
+    backgroundColor: "#0F172A", // Daha koyu başlık barı
+    padding: "12px 16px",
+    display: "flex",
+    alignItems: "center",
+    borderBottom: "1px solid #334155",
   },
-  dotRed: { width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#EF4444' },
-  dotYellow: { width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#F59E0B' },
-  dotGreen: { width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#10B981' },
-  
+  dot: {
+    width: "12px",
+    height: "12px",
+    borderRadius: "50%",
+    marginRight: "8px",
+  },
+  terminalTitle: {
+    color: "#64748B",
+    fontSize: "0.8rem",
+    marginLeft: "auto", // Sağa yaslar
+    fontWeight: "bold",
+  },
   terminalBody: {
-    padding: '20px',
-    fontFamily: "'Courier New', Courier, monospace", // Kod fontu
-    color: '#E2E8F0',
-    fontSize: '0.95rem',
+    padding: "20px",
+    color: "#E2E8F0",
+    fontSize: "1rem",
+    lineHeight: "1.6",
   },
-  codeLine: {
-    margin: '5px 0',
+  line: {
+    margin: "0 0 8px 0",
+    whiteSpace: "nowrap", // Yazılar alt satıra kaymasın
+    overflow: "hidden",
+    textOverflow: "ellipsis",
   },
-  title: {
-    fontSize: '1.8rem',
-    color: 'var(--text-main)',
-    marginBottom: '10px',
+  cursor: {
+    display: "inline-block",
+    width: "10px",
+    height: "20px",
+    backgroundColor: "#E2E8F0",
+    verticalAlign: "middle",
+    marginLeft: "5px",
+    animation: "opacity 1s infinite", // Tarayıcıda varsayılan olarak çalışmayabilir ama statik dursa da şık
   },
-  text: {
-    color: 'var(--text-light)',
-    marginBottom: '30px',
-    fontSize: '1.1rem',
+  textContainer: {
+    textAlign: "center",
+  },
+  heading: {
+    fontSize: "2rem",
+    fontWeight: "800",
+    color: "var(--text-main)",
+    margin: "0 0 10px 0",
+  },
+  subText: {
+    color: "var(--text-light)",
+    marginBottom: "25px",
+    fontSize: "1.1rem",
   },
   button: {
-    display: 'inline-block',
-    backgroundColor: 'var(--primary)',
-    color: '#fff',
-    padding: '12px 30px',
-    borderRadius: '8px',
-    textDecoration: 'none',
-    fontWeight: '600',
-    transition: 'background 0.3s',
-    boxShadow: '0 4px 6px rgba(37, 99, 235, 0.2)'
-  }
+    display: "inline-block",
+    backgroundColor: "var(--primary)",
+    color: "#fff",
+    padding: "12px 32px",
+    borderRadius: "8px",
+    textDecoration: "none",
+    fontWeight: "600",
+    transition: "background 0.3s ease",
+  },
 };
 
 export default NotFound;
