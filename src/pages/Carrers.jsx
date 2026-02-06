@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { CAREERS } from "../constants/jobs"; // Dosya yolunu kontrol et
+import { CAREERS } from "../constants/carrers"; // Dosya yolunu kontrol et
 
 const Careers = () => {
   const [selectedJob, setSelectedJob] = useState(null);
