@@ -1,35 +1,13 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { tumTurkiyeYBS } from "../constants/universities"; // Veriyi buradan çekiyoruz
+import { slugify } from "../utils/slug"; // Fonksiyonu buradan çağır
 
 const Explore = () => {
   const [searchTerm, setSearchTerm] = useState("");
 
   // Türkçe karakterleri İngilizce'ye ve boşlukları tireye çeviren fonksiyon
   // Örn: "Necmettin Erbakan Üniversitesi" -> "necmettin-erbakan-universitesi"
-  const slugify = (text) => {
-    const trMap = {
-      ç: "c",
-      ğ: "g",
-      ş: "s",
-      ü: "u",
-      ö: "o",
-      ı: "i",
-      İ: "i",
-      Ç: "c",
-      Ğ: "g",
-      Ş: "s",
-      Ü: "u",
-      Ö: "o",
-    };
-    return text
-      .split("")
-      .map((char) => trMap[char] || char)
-      .join("")
-      .toLowerCase()
-      .replace(/\s+/g, "-") // Boşlukları tire yap
-      .replace(/[^\w-]/g, ""); // Alfanümerik olmayanları sil
-  };
 
   // Arama filtresi
   const filteredUniversities = tumTurkiyeYBS.filter((uni) =>

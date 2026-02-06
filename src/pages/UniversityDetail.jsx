@@ -1,35 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { tumTurkiyeYBS } from "../constants/universities"; // Veri kaynağın
-
+import { slugify } from "../utils/slug";
 const UniversityDetail = () => {
   const { isim } = useParams(); // URL'deki parametreyi al (slug)
   const [uni, setUni] = useState(null);
 
   // Slug oluşturucu (Eşleştirme için Explore sayfasıyla aynı olmalı)
-  const slugify = (text) => {
-    const trMap = {
-      ç: "c",
-      ğ: "g",
-      ş: "s",
-      ü: "u",
-      ö: "o",
-      ı: "i",
-      İ: "i",
-      Ç: "c",
-      Ğ: "g",
-      Ş: "s",
-      Ü: "u",
-      Ö: "o",
-    };
-    return text
-      .split("")
-      .map((char) => trMap[char] || char)
-      .join("")
-      .toLowerCase()
-      .replace(/\s+/g, "-")
-      .replace(/[^\w-]/g, "");
-  };
 
   useEffect(() => {
     // URL'den gelen slug ile listedeki isimleri eşleştir
