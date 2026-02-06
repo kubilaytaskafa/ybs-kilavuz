@@ -19,7 +19,7 @@ const Home = () => {
           </p>
           <div style={{ marginTop: "2rem" }}>
             <Link
-              to="/kesfet"
+              to="/universite"
               className="btn btn-primary"
               style={{ marginRight: "10px" }}
             >

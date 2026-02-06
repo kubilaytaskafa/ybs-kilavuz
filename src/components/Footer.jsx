@@ -25,11 +25,6 @@ const Footer = () => {
                 Üniversiteler
               </a>
             </li>
-            <li>
-              <a href="/iletisim" style={styles.link}>
-                İletişim
-              </a>
-            </li>
           </ul>
         </div>
 
