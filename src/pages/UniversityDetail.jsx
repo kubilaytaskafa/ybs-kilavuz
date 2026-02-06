@@ -34,7 +34,7 @@ const UniversityDetail = () => {
       {/* Hero Section: Başlık ve Temel Bilgiler */}
       <div style={styles.hero}>
         <div className="container">
-          <Link to="/kesfet" style={styles.backLink}>
+          <Link to="/universite" style={styles.backLink}>
             ← Listeye Dön
           </Link>
           <h1 style={styles.title}>{uni.universite}</h1>
