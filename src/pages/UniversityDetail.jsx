@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { tumTurkiyeYBS } from "../constants/universiteler"; // Veri kaynağın
+import { tumTurkiyeYBS } from "../constants/universities"; // Veri kaynağın
 
 const UniversityDetail = () => {
   const { isim } = useParams(); // URL'deki parametreyi al (slug)

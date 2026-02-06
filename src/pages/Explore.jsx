@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { tumTurkiyeYBS } from "../constants/universiteler"; // Veriyi buradan çekiyoruz
+import { tumTurkiyeYBS } from "../constants/universities"; // Veriyi buradan çekiyoruz
 
 const Explore = () => {
   const [searchTerm, setSearchTerm] = useState("");
