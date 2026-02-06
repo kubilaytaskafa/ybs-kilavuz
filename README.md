@@ -57,7 +57,7 @@ Bu proje **Modern Frontend Mimarisi** kullanılarak geliştirilmiştir.
 
 - **Core:** [React.js](https://reactjs.org/) (Vite ile)
 - **Routing:** React Router DOM v6
-- **Styling:** CSS3 (CSS Variables, Responsive Grid & Flexbox)
+- **Styling:** CSS3 (CSS Variables, Responsive Grid & Flexbox) , Bootstrap , Bootstrap-icons
 - **Maps:** Google Maps Embed API
 - **Data:** JSON Based Data Management (Backend entegrasyonuna hazır yapı)
 
