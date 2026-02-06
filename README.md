@@ -14,15 +14,30 @@ Bu proje, üniversitelerin eğitim kalitesi, kampüs imkanları ve teknik odakl�
 
 _(Buraya projenin ekran görüntülerini ekleyeceksin. `public` veya `assets` klasörüne resimleri atıp aşağıdaki yolları düzenleyebilirsin.)_
 
-|                       Ana Sayfa                       |                    Keşfet & Arama                    |
-| :---------------------------------------------------: | :--------------------------------------------------: |
-| ![Ana Sayfa Tasarımı](./screenshots/home-preview.png) | ![Keşfet Sayfası](./screenshots/explore-preview.png) |
-|          _Modern ve kullanıcı dostu arayüz_           |             _Dinamik arama ve listeleme_             |
+|                 Ana Sayfa                  |
+| :----------------------------------------: |
+|<img width="1898" height="868" alt="Ekran görüntüsü 2026-02-06 142155" src="https://github.com/user-attachments/assets/f24d1e24-ed23-433e-9ec2-d2ae1afcdd57" /> |
+|     _Modern ve kullanıcı dostu arayüz_     |
 
-|                  Üniversite Detay                  |                    Meslek Rehberi                    |
-| :------------------------------------------------: | :--------------------------------------------------: |
-| ![Detay Sayfası](./screenshots/detail-preview.png) | ![Kariyer Sayfası](./screenshots/career-preview.png) |
-|    _Google Maps entegrasyonu ve ders programı_     |               _Mezunlar ne iş yapar?_                |
+|               Keşfet & Arama               |
+| :----------------------------------------: |
+| <img width="1898" height="868" alt="Ekran görüntüsü 2026-02-06 142236" src="https://github.com/user-attachments/assets/526dcdc3-7408-4bdf-87a9-3fb8bae4f9b2" />|
+|<img width="1222" height="500" alt="Ekran görüntüsü 2026-02-06 142257" src="https://github.com/user-attachments/assets/0bee7385-9e21-41e1-b4c6-5c25e69289a9" />|
+|        _Dinamik arama ve listeleme_        |
+
+
+
+|              Üniversite Detay               |
+| :-----------------------------------------: |
+| <img width="1901" height="865" alt="Ekran görüntüsü 2026-02-06 142319" src="https://github.com/user-attachments/assets/f62463bd-0870-47df-8dbf-d256e50c7660" />|
+| _Google Maps entegrasyonu ve ders programı_ |
+
+|               Meslek Rehberi               |
+| :----------------------------------------: |
+| <img width="1900" height="867" alt="Ekran görüntüsü 2026-02-06 142339" src="https://github.com/user-attachments/assets/e9efe54e-61bf-4fc4-9edc-14ea278f53ea" />|
+| <img width="1411" height="693" alt="Ekran görüntüsü 2026-02-06 142353" src="https://github.com/user-attachments/assets/eebedb66-c917-4306-ae56-06416f6f3db3" />|
+|          _Mezunlar ne iş yapar?_           |
+
 
 ---
 
