@@ -1,37 +1,61 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { tumTurkiyeYBS } from "../constants/universities"; // Veri kaynağın
+import { tumTurkiyeYBS } from "../constants/universities";
 import { slugify } from "../utils/slug";
-const UniversityDetail = () => {
-  const { isim } = useParams(); // URL'deki parametreyi al (slug)
-  const [uni, setUni] = useState(null);
+import InfoModal from "../components/InfoModal";
 
-  // Slug oluşturucu (Eşleştirme için Explore sayfasıyla aynı olmalı)
+const UniversityDetail = () => {
+  const { isim } = useParams();
+  const [uni, setUni] = useState(null);
+  const [showModal, setShowModal] = useState(false); // Modal state'i
 
   useEffect(() => {
-    // URL'den gelen slug ile listedeki isimleri eşleştir
     const foundUni = tumTurkiyeYBS.find((u) => slugify(u.universite) === isim);
     setUni(foundUni);
+
+    // Üniversite bulunduğunda Modalı aç
+    if (foundUni) {
+      setShowModal(true);
+    }
   }, [isim]);
 
   if (!uni) {
     return (
       <div style={styles.loadingContainer}>
-        <h2>Üniversite aranıyor...</h2>
-        <Link to="/universite" className="btn btn-primary">
+        <div className="spinner-border text-primary" role="status"></div>
+        <h2 style={{ marginTop: "20px", color: "#64748B" }}>
+          Üniversite bilgileri yükleniyor...
+        </h2>
+        <Link to="/universite" style={styles.backButton}>
           Listeye Dön
         </Link>
       </div>
     );
   }
 
-  // Google Maps Embed Linki (Adresi URL formatına çeviriyoruz)
-  // q=ADRES parametresi ile haritayı oluşturuyoruz.
-  const mapSrc = `https://maps.google.com/maps?q=${encodeURIComponent(uni.fakulte_adresi)}&t=&z=15&ie=UTF8&iwloc=&output=embed`;
+  // Google Maps Embed Linki
+  const mapSrc = `https://maps.google.com/maps?q=${encodeURIComponent(
+    uni.fakulte_adresi,
+  )}&t=&z=15&ie=UTF8&iwloc=&output=embed`;
+
+  // Sınıf isimlerini daha kullanıcı dostu hale getirmek için yardımcı obje
+  const gradeLabels = {
+    grade_1: "1. Sınıf (Temel Düzey)",
+    grade_2: "2. Sınıf (Orta Düzey)",
+    grade_3: "3. Sınıf (İhtisas)",
+    grade_4: "4. Sınıf (Bitirme & Proje)",
+  };
 
   return (
     <div style={styles.pageContainer}>
-      {/* Hero Section: Başlık ve Temel Bilgiler */}
+      {/* --- HERO SECTION --- */}
+      <InfoModal
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+        uniName={uni.universite}
+        facultyName={uni.fakulte}
+        departmentName={uni.bolum}
+      />
       <div style={styles.hero}>
         <div className="container">
           <Link to="/universite" style={styles.backLink}>
@@ -39,32 +63,23 @@ const UniversityDetail = () => {
           </Link>
           <h1 style={styles.title}>{uni.universite}</h1>
           <div style={styles.badgeContainer}>
-            <span style={styles.badge}>{uni.fakulte}</span>
-            <span
-              style={{
-                ...styles.badge,
-                backgroundColor: "#FEF3C7",
-                color: "#D97706",
-              }}
-            >
-              {uni.bolum}
-            </span>
+            <span style={styles.badgeWhite}>{uni.fakulte}</span>
+            <span style={styles.badgeYellow}>{uni.bolum}</span>
           </div>
         </div>
       </div>
 
       <div className="container" style={styles.contentGrid}>
-        {/* SOL KOLON: Harita ve İletişim */}
+        {/* --- SOL KOLON: İletişim & Harita --- */}
         <div style={styles.leftColumn}>
           <div style={styles.card}>
-            <h3 style={styles.cardTitle}>📍 Kampüs Konumu</h3>
+            <h3 style={styles.cardTitle}>📍 İletişim & Konum</h3>
             <p style={styles.addressText}>{uni.fakulte_adresi}</p>
 
-            {/* Google Maps Iframe */}
             <div style={styles.mapContainer}>
               <iframe
                 width="100%"
-                height="300"
+                height="250"
                 id="gmap_canvas"
                 src={mapSrc}
                 frameBorder="0"
@@ -75,179 +90,298 @@ const UniversityDetail = () => {
               ></iframe>
             </div>
 
-            {/* Harici Yol Tarifi Butonu */}
             <a
-              href={`https://www.google.com/maps/dir//${encodeURIComponent(uni.fakulte_adresi)}`}
+              href={`https://maps.google.com/maps?q=${encodeURIComponent(
+                uni.fakulte_adresi,
+              )}`}
               target="_blank"
               rel="noreferrer"
-              className="btn btn-primary"
-              style={{ width: "100%", textAlign: "center", marginTop: "15px" }}
+              style={styles.directionButton}
             >
               Yol Tarifi Al 🚀
             </a>
           </div>
 
-          {/* İstatistikler (Fake Data - İleride Backend'den gelecek) */}
+          {/* İstatistik Kartı (Opsiyonel) */}
           <div style={styles.card}>
-            <h3 style={styles.cardTitle}>📊 Bölüm İstatistikleri</h3>
+            <h3 style={styles.cardTitle}>📊 Genel Bakış</h3>
             <div style={styles.statRow}>
-              <span>Memnuniyet Ortalaması:</span>
-              <span style={{ fontWeight: "bold", color: "var(--secondary)" }}>
-                ⭐ 4.2 / 5
-              </span>
+              <span>Eğitim Dili:</span>
+              <span style={{ fontWeight: "600" }}>Türkçe / İngilizce</span>
             </div>
             <div style={styles.statRow}>
-              <span>Yazılım Odaklılık:</span>
+              <span>Eğitim Türü:</span>
+              <span style={{ fontWeight: "600" }}>Örgün Öğretim</span>
+            </div>
+            {/* Toplam Ders Sayısı Hesabı */}
+            <div style={styles.statRow}>
+              <span>Toplam Ders:</span>
               <span style={{ fontWeight: "bold", color: "var(--primary)" }}>
-                Yüksek
+                {uni.dersler ? Object.values(uni.dersler).flat().length : 0}{" "}
+                Adet
               </span>
             </div>
           </div>
         </div>
 
-        {/* SAĞ KOLON: Ders Programı */}
+        {/* --- SAĞ KOLON: Müfredat (Yıllara Göre) --- */}
         <div style={styles.rightColumn}>
-          <div style={styles.card}>
-            <h3 style={styles.cardTitle}>📚 YBS Müfredat Dersleri</h3>
-            <p
-              style={{
-                fontSize: "0.9rem",
-                color: "#64748B",
-                marginBottom: "20px",
-              }}
-            >
-              Bu üniversitede verilen temel YBS derslerinin listesi aşağıdadır.
+          <div style={styles.curriculumHeader}>
+            <h2 style={styles.sectionTitle}>📚 Akademik Müfredat</h2>
+            <p style={styles.sectionSubtitle}>
+              Yönetim Bilişim Sistemleri bölümü için yıl bazlı ders programı.
             </p>
-
-            <div style={styles.curriculumGrid}>
-              {uni.dersler && uni.dersler.length > 0 ? (
-                uni.dersler.map((ders, index) => (
-                  <div key={index} style={styles.lessonItem}>
-                    <span style={styles.checkIcon}>✓</span>
-                    {ders}
-                  </div>
-                ))
-              ) : (
-                <p>Ders bilgisi girilmemiş.</p>
-              )}
-            </div>
           </div>
+
+          {uni.dersler ? (
+            <div style={styles.yearGrid}>
+              {/* Object.entries ile grade_1, grade_2... üzerinde dönüyoruz */}
+              {Object.entries(uni.dersler).map(([key, courses]) => (
+                <div key={key} style={styles.yearCard}>
+                  <div style={styles.yearHeader}>
+                    <h3 style={styles.yearTitle}>
+                      {gradeLabels[key] || key.toUpperCase()}
+                    </h3>
+                    <span style={styles.courseCountBadge}>
+                      {courses.length} Ders
+                    </span>
+                  </div>
+
+                  <ul style={styles.courseList}>
+                    {courses.map((ders, idx) => (
+                      <li key={idx} style={styles.courseItem}>
+                        <span style={styles.checkIcon}>🔹</span>
+                        {ders}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div style={styles.card}>
+              <p>Bu üniversite için henüz ders bilgisi girilmemiştir.</p>
+            </div>
+          )}
         </div>
       </div>
     </div>
   );
 };
 
+// --- STYLES ---
 const styles = {
   pageContainer: {
-    backgroundColor: "var(--bg-color)",
+    backgroundColor: "#F1F5F9", // Hafif gri arka plan
     minHeight: "100vh",
     paddingBottom: "4rem",
+    fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
   },
   loadingContainer: {
-    height: "60vh",
+    height: "100vh",
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-    gap: "20px",
+    backgroundColor: "#F8FAFC",
   },
+  backButton: {
+    padding: "10px 20px",
+    backgroundColor: "#0d6efd",
+    color: "white",
+    textDecoration: "none",
+    borderRadius: "8px",
+    marginTop: "10px",
+  },
+  // Hero Section
   hero: {
-    backgroundColor: "var(--primary)",
+    background: "linear-gradient(135deg, #0f172a 0%, #1e293b 100%)", // Koyu modern tema
     color: "#fff",
-    padding: "40px 0 60px",
-    marginBottom: "-40px", // Kartların üstüne binmesi için negatif margin
+    padding: "60px 0 80px",
+    marginBottom: "-50px", // İçeriğin hero'ya girmesi için
   },
   backLink: {
-    color: "rgba(255,255,255,0.8)",
+    color: "#94A3B8",
     textDecoration: "none",
-    fontSize: "0.9rem",
-    marginBottom: "15px",
+    fontSize: "0.95rem",
+    marginBottom: "20px",
     display: "inline-block",
+    transition: "color 0.2s",
+    fontWeight: "500",
   },
   title: {
-    fontSize: "2rem",
-    marginBottom: "15px",
-    fontWeight: "700",
+    fontSize: "2.5rem",
+    marginBottom: "20px",
+    fontWeight: "800",
+    lineHeight: "1.2",
   },
   badgeContainer: {
     display: "flex",
-    gap: "10px",
+    gap: "12px",
     flexWrap: "wrap",
   },
-  badge: {
-    backgroundColor: "rgba(255,255,255,0.2)",
-    padding: "5px 12px",
-    borderRadius: "20px",
+  badgeWhite: {
+    backgroundColor: "rgba(255,255,255,0.1)",
+    color: "#fff",
+    padding: "8px 16px",
+    borderRadius: "30px",
     fontSize: "0.9rem",
-    backdropFilter: "blur(5px)",
+    backdropFilter: "blur(4px)",
+    border: "1px solid rgba(255,255,255,0.2)",
+  },
+  badgeYellow: {
+    backgroundColor: "#F59E0B", // Amber rengi
+    color: "#fff",
+    padding: "8px 16px",
+    borderRadius: "30px",
+    fontSize: "0.9rem",
+    fontWeight: "600",
+    boxShadow: "0 4px 6px rgba(245, 158, 11, 0.3)",
   },
 
+  // Layout
   contentGrid: {
     display: "grid",
-    gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", // Responsive Grid
+    gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
     gap: "30px",
+    position: "relative",
+    zIndex: 10,
   },
   leftColumn: {
+    flex: "0 0 350px", // Sabit genişlikli yan bar (Desktop)
     display: "flex",
     flexDirection: "column",
-    gap: "20px",
+    gap: "25px",
   },
   rightColumn: {
-    flex: 1,
+    flex: 1, // Kalan alanı kapla
   },
+
+  // Genel Kart Stili
   card: {
     backgroundColor: "#fff",
-    borderRadius: "12px",
+    borderRadius: "16px",
     padding: "25px",
-    boxShadow: "0 4px 6px rgba(0,0,0,0.05)",
-    border: "1px solid #eee",
+    boxShadow: "0 4px 20px rgba(0,0,0,0.03)",
+    border: "1px solid #e2e8f0",
   },
   cardTitle: {
-    color: "var(--text-main)",
-    marginBottom: "20px",
-    fontSize: "1.2rem",
-    borderBottom: "1px solid #eee",
+    fontSize: "1.1rem",
+    fontWeight: "700",
+    color: "#1e293b",
+    marginBottom: "15px",
     paddingBottom: "10px",
+    borderBottom: "1px solid #f1f5f9",
   },
   addressText: {
     color: "#64748B",
-    marginBottom: "15px",
-    lineHeight: "1.5",
     fontSize: "0.95rem",
+    lineHeight: "1.6",
+    marginBottom: "20px",
   },
   mapContainer: {
-    borderRadius: "8px",
+    borderRadius: "12px",
     overflow: "hidden",
-    border: "1px solid #ddd",
+    border: "1px solid #e2e8f0",
+  },
+  directionButton: {
+    display: "block",
+    width: "100%",
+    padding: "12px",
+    backgroundColor: "#0d6efd",
+    color: "#fff",
+    textAlign: "center",
+    borderRadius: "10px",
+    textDecoration: "none",
+    fontWeight: "600",
+    marginTop: "15px",
+    transition: "background 0.3s",
+    boxShadow: "0 4px 10px rgba(13, 110, 253, 0.2)",
   },
   statRow: {
     display: "flex",
     justifyContent: "space-between",
-    padding: "10px 0",
-    borderBottom: "1px dashed #eee",
+    padding: "12px 0",
+    borderBottom: "1px dashed #e2e8f0",
     color: "#475569",
+    fontSize: "0.95rem",
   },
 
-  // Dersler
-  curriculumGrid: {
-    display: "grid",
-    gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
-    gap: "10px",
+  // Müfredat Alanı
+  curriculumHeader: {
+    marginBottom: "25px",
   },
-  lessonItem: {
+  sectionTitle: {
+    marginTop: "4rem",
+    fontSize: "1.8rem",
+    fontWeight: "700",
+    color: "#1e293b", // Koyu lacivert
+    marginBottom: "5px",
+  },
+  sectionSubtitle: {
+    color: "#64748B",
+    fontSize: "1rem",
+  },
+  yearGrid: {
+    display: "grid",
+    gap: "25px",
+    gridTemplateColumns: "1fr", // Mobilde tek kolon, aşağıda media query yok ama flex-grow ile halledilebilir
+  },
+  yearCard: {
+    backgroundColor: "#fff",
+    borderRadius: "16px",
+    padding: "0", // Header ve body ayrı olduğu için 0
+    boxShadow: "0 2px 10px rgba(0,0,0,0.02)",
+    border: "1px solid #e2e8f0",
+    overflow: "hidden",
+    marginBottom: "10px",
+  },
+  yearHeader: {
+    backgroundColor: "#f8fafc",
+    padding: "15px 25px",
+    borderBottom: "1px solid #e2e8f0",
     display: "flex",
+    justifyContent: "space-between",
     alignItems: "center",
-    gap: "8px",
-    backgroundColor: "#F8FAFC",
-    padding: "10px",
-    borderRadius: "6px",
-    fontSize: "0.9rem",
+  },
+  yearTitle: {
+    fontSize: "1.1rem",
+    fontWeight: "700",
     color: "#334155",
+    margin: 0,
+  },
+  courseCountBadge: {
+    fontSize: "0.8rem",
+    backgroundColor: "#e2e8f0",
+    padding: "4px 10px",
+    borderRadius: "12px",
+    color: "#475569",
+    fontWeight: "600",
+  },
+  courseList: {
+    listStyle: "none",
+    padding: "20px 25px",
+    margin: 0,
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", // Kart içinde de grid
+    gap: "12px",
+  },
+  courseItem: {
+    fontSize: "0.9rem",
+    color: "#475569",
+    display: "flex",
+    alignItems: "flex-start", // Uzun ders isimlerinde üstte kalsın
+    gap: "10px",
+    padding: "8px",
+    backgroundColor: "#fcfcfc",
+    borderRadius: "8px",
+    border: "1px solid #f1f5f9",
+    lineHeight: "1.5",
   },
   checkIcon: {
-    color: "var(--primary)",
-    fontWeight: "bold",
+    color: "#0d6efd",
+    fontSize: "0.8rem",
+    marginTop: "3px", // İkonu metinle hizalamak için
   },
 };
 
