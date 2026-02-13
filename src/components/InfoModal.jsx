@@ -31,11 +31,17 @@ const InfoModal = ({
           ayrılmış ders müfredatını bulabilirsiniz.
         </p>
         <p style={styles.subText}>
-          Buradaki veriler {uniName} resmi web sitelerinden derlenmiştir. Ancak
-          çoğu üniversite çevrimiçi müfredat paylaşmadığı için, size genel bir
-          fikir vermesi adına <strong>standart YBS ders içerikleri</strong>{" "}
-          kullanılmıştır. En güncel ve kesin bilgi için lütfen üniversitenin
-          resmi web sitesini ziyaret ediniz.
+          Buradaki veriler <strong>{uniName}</strong> resmi web sitesinden
+          derlenmiştir. Ancak çoğu üniversite çevrimiçi müfredat paylaşmadığı
+          için, size genel bir fikir vermesi adına{" "}
+          <strong>standart YBS ders içerikleri</strong> kullanılmıştır. En
+          güncel ve kesin bilgi için lütfen üniversitenin resmi web sitesini
+          ziyaret ediniz.
+        </p>
+        <p style={styles.subText}>
+          <span className="text-warning">Dikkat!</span> müfredat bilgileri temel
+          dersleri kapsar , seçmeli dersler dönem ve yıllara göre değişiklik
+          göstermektedir.
         </p>
 
         <button onClick={onClose} style={styles.button}>
