@@ -1,0 +1,135 @@
+/* Temel Değişkenler (Varsa kendi global css'inden de çekebilirsin) */
+:root {
+  --primary: #2c3e50;
+  --secondary: #e74c3c;
+  --text-main: #333;
+  --white: #ffffff;
+  --bg-light: #f8f9fa;
+}
+
+/* Tüm elemanlarda padding kaynaklı taşmayı önler */
+* {
+  box-sizing: border-box;
+}
+
+/* Header Temel Ayarlar */
+.header {
+  background-color: var(--white);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  width: 100%; /* Yatay scrollu engellemek için önemli */
+  height: 70px; /* Header yüksekliğini sabitlemek layout kaymasını önler */
+  display: flex;
+  align-items: center;
+}
+
+/* Container: İçeriği ortalar ve kenarlardan boşluk bırakır */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+}
+
+/* Logo */
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-decoration: none;
+  color: var(--primary);
+}
+
+/* Linkler */
+.link {
+  text-decoration: none;
+  color: var(--text-main);
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.link:hover {
+  color: var(--secondary);
+}
+
+/* Desktop Menu Ayarları */
+.nav-links {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+/* Hamburger Butonu */
+.hamburger {
+  background: none;
+  border: none;
+  font-size: 1.8rem;
+  cursor: pointer;
+  color: var(--primary);
+  padding: 0;
+}
+
+/* Mobile Menu Başlangıçta Gizli (Dropdown) */
+.mobile-menu {
+  position: absolute;
+  top: 70px; /* Header yüksekliği kadar aşağıda */
+  left: 0;
+  width: 100%;
+  background-color: var(--white);
+  flex-direction: column;
+  border-top: 1px solid #eee;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  max-height: 0; /* Animasyon için yükseklik 0 */
+  transition: max-height 0.3s ease-in-out;
+}
+
+/* Menü Açıldığında */
+.mobile-menu.open {
+  max-height: 300px; /* İçeriğin sığacağı kadar bir değer */
+  display: flex;
+}
+
+.mobile-link {
+  text-decoration: none;
+  color: var(--text-main);
+  font-size: 1.1rem;
+  padding: 15px 20px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.mobile-link.highlight {
+  color: var(--secondary);
+  font-weight: bold;
+}
+
+/* --- RESPONSIVE KURALLAR (MEDIA QUERIES) --- */
+
+/* Masaüstü (768px'den geniş ekranlar) */
+@media (min-width: 769px) {
+  .mobile-only {
+    display: none !important; /* Hamburgeri gizle */
+  }
+  .mobile-menu {
+    display: none !important; /* Mobil menüyü tamamen gizle */
+  }
+}
+
+/* Mobil (768px ve altı) */
+@media (max-width: 768px) {
+  .desktop-menu {
+    display: none !important; /* Masaüstü menüyü gizle */
+  }
+
+  .mobile-only {
+    display: block; /* Hamburgeri göster */
+  }
+}

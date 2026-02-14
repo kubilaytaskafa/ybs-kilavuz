@@ -10,6 +10,7 @@ const UniversityDetail = () => {
   const [showModal, setShowModal] = useState(false); // Modal state'i
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     const foundUni = tumTurkiyeYBS.find((u) => slugify(u.universite) === isim);
     setUni(foundUni);
 
