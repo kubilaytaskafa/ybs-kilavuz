@@ -2,6 +2,7 @@ import React, { useState, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { tumTurkiyeYBS } from "../constants/universities";
 import { slugify } from "../utils/slug";
+import TurkeyMapFilter from "../components/TurkeyMapFilter";
 
 const Explore = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -136,9 +137,12 @@ const Explore = () => {
           </span>
         </div>
       </div>
+      <div className="container mt-5">
+        <TurkeyMapFilter onCitySelect={setSelectedCity} />
+      </div>
 
       {/* Liste Kısmı */}
-      <div className="container" style={styles.listContainer}>
+      <div className="container mt-5" style={styles.listContainer}>
         {filteredUniversities.length > 0 ? (
           <div style={styles.grid}>
             {filteredUniversities.map((uni) => (
